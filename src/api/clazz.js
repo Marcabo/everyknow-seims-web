@@ -54,7 +54,7 @@ export function getClazzPageByCondition(request) {
  */
 export function addClazz(request) {
   return myrequest({
-    url: '/clazz/insert',
+    url: '/clazz/insertBatch',
     method: 'post',
     data: {
       "eKnowRequest": {

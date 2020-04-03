@@ -8,7 +8,7 @@
         <el-option v-for="item in collegeList" :key="item.id" :label="item.collegeName" :value="item.collegeCode" />
       </el-select>
 
-      <el-select v-model="listQuery.deptCode" placeholder="专业" clearable class="filter-item" style="width: 250px">
+      <el-select v-model="listQuery.deptCode" placeholder="专业" no-data-text="全部" clearable class="filter-item" style="width: 250px">
         <el-option v-for="item in deptList" :key="item.id" :label="item.deptName" :value="item.deptCode" />
       </el-select>
 
@@ -86,7 +86,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="专业" prop="deptCode">
-          <el-select v-model="temp.deptCode" placeholder="专业" clearable class="filter-item" style="width: 250px">
+          <el-select v-model="temp.deptCode" placeholder="专业" no-data-text="请先选择学院" clearable class="filter-item" style="width: 250px">
             <el-option v-for="item in deptList" :key="item.id" :label="item.deptName" :value="item.deptCode" />
           </el-select>
         </el-form-item>
@@ -185,11 +185,16 @@
         }
       },
       selectDept() {
-        getDeptListByCollegeCode({
-          collegeCode: this.temp.collegeCode
-        }).then(response => {
-          this.deptList = response.returnObject
-        })
+        if (this.temp.collegeCode === '') {
+          this.deptList = undefined;
+          this.temp.deptCode = '';
+        } else {
+          getDeptListByCollegeCode({
+            collegeCode: this.temp.collegeCode
+          }).then(response => {
+            this.deptList = response.returnObject
+          })
+        }
       },
       handleUpdate(row) {
         this.temp = Object.assign({}, row) // copy obj
