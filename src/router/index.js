@@ -56,6 +56,34 @@ export const constantRoutes = [
   },
 
   {
+    path: '/schoolbase',
+    component: Layout,
+    redirect: '/schoolbase/college',
+    name: 'SchoolBaseInformation',
+    meta: { title: '学校基础信息管理', icon: 'example' },
+    children: [
+      {
+        path: 'college',
+        name: 'College',
+        component: () => import('@/views/schoolbaseinformation/College'),
+        meta: { title: '学院管理', icon: 'table' }
+      },
+      {
+        path: 'dept',
+        name: 'Dept',
+        component: () => import('@/views/schoolbaseinformation/Dept'),
+        meta: {title: '专业管理', icon: 'table'}
+      },
+      {
+        path: 'clazz',
+        name: 'Clazz',
+        component: () => import('@/views/schoolbaseinformation/Clazz'),
+        meta: {title: '班级管理', icon: 'table'}
+      }
+    ]
+  },
+
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
@@ -164,7 +192,7 @@ export const constantRoutes = [
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })

@@ -36,7 +36,18 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    before: require('./mock/mock-server.js')
+    disableHostCheck: true,
+    before: require('./mock/mock-server.js'),
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8090', // 要访问的接口域名
+        ws: true, // 启用 websockets
+        changeOrigin: true, // 开启代理,会在本地创建一个虚拟服务器,request 和 response 会走这里
+        pathRewrite: {
+          '/api': '' // 这里理解成用 '/api' 代替target里的地址
+        }
+      }
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -44,7 +55,12 @@ module.exports = {
     name: name,
     resolve: {
       alias: {
-        '@': resolve('src')
+        '@': resolve('src'),
+        'api': resolve('src/api'),
+        'router': resolve('src/router'),
+        'store': resolve('src/store'),
+        'utils': resolve('src/utils'),
+        'views': resolve('src/views')
       }
     }
   },

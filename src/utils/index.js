@@ -40,6 +40,7 @@ export function parseTime(time, cFormat) {
     if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
     return value.toString().padStart(2, '0')
   })
+  console.log(time_str);
   return time_str
 }
 
@@ -104,4 +105,20 @@ export function param2Obj(url) {
         .replace(/\+/g, ' ') +
       '"}'
   )
+}
+
+export function getCurrentTime() {
+  return parseTime(new Date(), '')
+}
+
+export function e2page(response) {
+  return {
+    // 分页请求
+    page: response.page,
+    current: response.current,
+    pageSize: response.pageSize,
+    totalCount: response.totalCount,
+    hasNextPage: response.hasNextPage,
+    hasPreviousPage: response.hasPreviousPage
+  }
 }

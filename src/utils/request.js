@@ -15,6 +15,7 @@ service.interceptors.request.use(
   config => {
     // do something before request is sent
 
+    // 如果保存了 token. 那么就在请求的头部添加 token
     if (store.getters.token) {
       // let each request carry token
       // ['X-Token'] is a custom headers key

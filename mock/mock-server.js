@@ -11,6 +11,9 @@ function registerRoutes(app) {
   for (const mock of mocks) {
     app[mock.type](mock.url, mock.response)
     mockLastIndex = app._router.stack.length
+    app[mock.type](mock.url, bodyParser.json(), bodyParser.urlencoded({
+      extended: true
+    }), mock.response)
   }
   const mockRoutesLength = Object.keys(mocks).length
   return {
@@ -33,10 +36,10 @@ module.exports = app => {
 
   // parse app.body
   // https://expressjs.com/en/4x/api.html#req.body
-  app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded({
-    extended: true
-  }))
+  // app.use(bodyParser.json())
+  // app.use(bodyParser.urlencoded({
+  //   extended: true
+  // }))
 
   const mockRoutes = registerRoutes(app)
   var mockRoutesLength = mockRoutes.mockRoutesLength
