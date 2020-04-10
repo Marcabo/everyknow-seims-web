@@ -38,21 +38,24 @@ export function myrequest(config) {
         return Promise.reject(new Error(res.respMsg || 'Error'))
       }
     } else {
-      // 自己封装的错误
-      if (res.respCode !== '200') {
-        // 如果后续有其他错误,可自行添加
-        if (res.respCode === '500') {
-          Notification({
-            title: '操作失败',
-            message: res.respMsg,
-            type: 'error',
-            duration: 2000
-          });
-        }
+      if (result.headers['content-type'] === 'application/octet-stream') {
+        // 如果是文件下载
+        return  result;
       } else {
-        if (result.headers['content-type'] === 'application/octet-stream') {
-          return result;
+        // 非文件下载
+        // 自己封装的错误
+        if (res.respCode !== '200') {
+          // 如果有后续的错误, 可以自行添加
+          if (res.respCode === '500') {
+            Notification({
+              title: '操作失败',
+              message: res.respMsg,
+              type: 'error',
+              duration: 2000
+            });
+          }
         } else {
+          // 正常返回
           return res;
         }
       }
