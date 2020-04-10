@@ -66,21 +66,43 @@ export const constantRoutes = [
         path: 'college',
         name: 'College',
         component: () => import('@/views/schoolbaseinformation/College'),
-        meta: { title: '学院管理', icon: 'table' }
+        meta: { title: '学院管理', icon: 'college' }
       },
       {
         path: 'dept',
         name: 'Dept',
         component: () => import('@/views/schoolbaseinformation/Dept'),
-        meta: {title: '专业管理', icon: 'table'}
+        meta: {title: '专业管理', icon: 'dept'}
       },
       {
         path: 'clazz',
         name: 'Clazz',
         component: () => import('@/views/schoolbaseinformation/Clazz'),
-        meta: {title: '班级管理', icon: 'table'}
+        meta: {title: '班级管理', icon: 'clazz'}
       }
     ]
+  },
+  {
+    path: '/studentinfo',
+    component: Layout,
+    redirect: '',
+    name: 'StudentInformation',
+    meta: {title: '毕业生信息管理', icon: 'info-mannger'},
+    children: [
+      {
+        path: 'baseInfo',
+        name: 'BaseInfo',
+        component: () => import('@/views/graduateinformation/BaseInfo'),
+        meta: {title: '基础信息管理', icon: 'base-info'}
+      },
+      {
+        path: 'import',
+        name: 'Import',
+        component: () => import('@/views/graduateinformation/upload-excel'),
+        meta: {title: '基础数据导入(excel)', icon: 'upload'}
+      }
+    ]
+
   },
 
   {
