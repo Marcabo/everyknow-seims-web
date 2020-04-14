@@ -96,15 +96,38 @@ export const constantRoutes = [
         meta: {title: '基础信息管理', icon: 'base-info'}
       },
       {
+        path: 'noEmploy',
+        component: () => import('@/views/graduateinformation/NoEmployStudentList'),
+        meta: {title: '未登记就业信息统计', icon: 'student-employ'}
+      },
+      {
+        path: 'noFile',
+        component: () => import('@/views/graduateinformation/NoFileStudentList'),
+        meta: {title: '未登记档案信息统计', icon: 'student-file'}
+      },
+      {
         path: 'import',
         name: 'Import',
         component: () => import('@/views/graduateinformation/upload-excel'),
         meta: {title: '基础数据导入(excel)', icon: 'upload'}
+      },
+      {
+        path: 'addStudent',
+        component: () => import('@/views/graduateinformation/add-student'),
+        name: 'AddStudent',
+        hidden: true,
+        meta: {title: '新增学生', icon: 'addition'}
+      },
+      {
+        path: 'editStudent/:id(\\d+)',
+        component: () => import('@/views/graduateinformation/edit-student'),
+        name: 'EditStudent',
+        hidden: true,
+        meta: { title: '编辑学生信息', icon: 'editor', noCache: true }
       }
     ]
 
   },
-
   {
     path: '/example',
     component: Layout,

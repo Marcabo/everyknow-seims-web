@@ -53,6 +53,7 @@ export function myrequest(config) {
               type: 'error',
               duration: 2000
             });
+            return Promise.reject(new Error(res.respMsg || 'Error'))
           }
         } else {
           // 正常返回

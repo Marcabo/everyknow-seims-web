@@ -26,9 +26,6 @@
       </el-row>
 
       <el-row>
-        <span class="el-row-span">身份证号:</span>
-        <el-input v-model="listQuery.identificaNumber" placeholder="身份证号(模糊)" style="width: 300px" class="filter-item"/>
-
         <span class="el-row-span">入学年份:</span>
         <el-date-picker
                 v-model="listQuery.entryTime"
@@ -42,13 +39,13 @@
 
         <span class="el-row-span">毕业年份:</span>
         <el-date-picker
-          v-model="listQuery.graduationSession"
-          :default-value="new Date()"
-          format="yyyy"
-          value-format="yyyy"
-          type="year"
-          placeholder="选择年"
-          class="filter-item">
+                v-model="listQuery.graduationSession"
+                :default-value="new Date()"
+                format="yyyy"
+                value-format="yyyy"
+                type="year"
+                placeholder="选择年"
+                class="filter-item">
         </el-date-picker>
 
         <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-search"
@@ -56,12 +53,6 @@
           搜索
         </el-button>
 
-        <router-link to="/studentinfo/addStudent">
-          <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-circle-plus">
-<!--                     @click="handleCreate">-->
-            添加
-          </el-button>
-        </router-link>
       </el-row>
 
     </div>
@@ -116,26 +107,6 @@
           {{ scope.row.phone }}
         </template>
       </el-table-column>
-      <el-table-column label="政治面貌" align="center" width="150">
-        <template slot-scope="scope">
-          {{ scope.row.politicalStatus }}
-        </template>
-      </el-table-column>
-      <el-table-column label="身份证号码" align="center" width="200">
-        <template slot-scope="scope">
-          {{ scope.row.identificationNumber }}
-        </template>
-      </el-table-column>
-      <el-table-column label="户口所在地" align="center" width="150">
-        <template slot-scope="scope">
-          {{ scope.row.accountLocation }}
-        </template>
-      </el-table-column>
-      <el-table-column label="生源地" align="center" width="100">
-        <template slot-scope="scope">
-          {{ scope.row.nativePlace }}
-        </template>
-      </el-table-column>
       <el-table-column label="学历" align="center" width="150">
         <template slot-scope="scope">
           {{ scope.row.educationBackground }}
@@ -149,26 +120,6 @@
       <el-table-column label="毕业届数" align="center" width="150">
         <template slot-scope="scope">
           {{ scope.row.graduationSession }}
-        </template>
-      </el-table-column>
-
-      <el-table-column label="操作" align="center" fixed="right" width="300">
-        <template slot-scope="{row,$index}">
-          <router-link :to="'/studentinfo/editStudent/'+row.id">
-            <el-button type="primary" size="mini">
-              编辑
-            </el-button>
-          </router-link>
-
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            档案
-          </el-button>
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            就业信息
-          </el-button>
-          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row,$index)">
-            删除
-          </el-button>
         </template>
       </el-table-column>
 
@@ -187,11 +138,11 @@
   import {getCollegeList} from "@/api/college";
   import {getDeptListByCollegeCode} from "@/api/dept";
   import {getClazzListByDeptCode} from "@/api/clazz";
-  import {getStudentPage} from "@/api/studentinfo";
+  import {getNoEmployStudentPage} from "@/api/studentinfo";
 
 
   export default {
-    name: 'BaseInfo',
+    name: 'NoEmployStudentList',
     data() {
       return {
         list: null,
@@ -199,10 +150,6 @@
         dialogStatus: '',
         dialogFormVisible: false,
         hiddenOnSingle: true,
-        textMap: {
-          update: '编辑',
-          create: '创建'
-        },
         temp: {
           id: undefined,
           clazzName: '',
@@ -217,7 +164,6 @@
           clazzId: undefined,
           stuName: '',
           stuId: '',
-          identificaNumber: undefined,
           entryTime: undefined,
           graduationSession: ''
         },
@@ -242,7 +188,7 @@
     methods: {
       fetchData() {
         this.listLoading = true;
-        getStudentPage({
+        getNoEmployStudentPage({
           current: this.page.current,
           pageSize: this.page.pageSize
         }).then(response => {
@@ -278,32 +224,6 @@
           })
         }
       },
-      handleDelete(row, index) {
-        this.$confirm('此操作将永久删除该 班级 , 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          // 真正执行删除
-          this.deleteClazz(row.id);
-
-          this.$notify({
-            title: '操作成功',
-            message: '删除成功',
-            type: 'success',
-            duration: 2000
-          });
-          // 从 list 中删除
-          this.list.splice(index, 1)
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除',
-            duration: 1000
-          });
-        });
-
-      },
       handleFilter() {
         this.listLoading = true
         if (this.listQuery.clazzName === '' && this.listQuery.deptCode === '' && this.listQuery.collegeCode === '' &&
@@ -311,7 +231,7 @@
             this.listQuery.entryTime === null && this.listQuery.graduationSession === null) {
           this.fetchData()
         } else {
-          getStudentPage({
+          getNoEmployStudentPage({
             current: this.page.current,
             pageSize: this.page.pageSize,
             collegeCode: this.listQuery.collegeCode,

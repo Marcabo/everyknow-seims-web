@@ -45,6 +45,22 @@ export function getClazzPageByCondition(request) {
   })
 }
 
+export function getClazzListByDeptCode(request) {
+  return myrequest({
+    url: 'clazz/queryListByDeptCode',
+    method: 'post',
+    data: {
+      "eKnowRequest": {
+        "organId": "NCU",
+        "requestDate": getCurrentTime()
+      },
+      "request": {
+        "deptCode": request.deptCode
+      }
+    }
+  })
+
+}
 
 
 /**

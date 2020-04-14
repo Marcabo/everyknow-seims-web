@@ -2,7 +2,7 @@
   <div class="app-container">
 
     <div class="filter-container">
-      <el-input v-model="listQuery.deptName" placeholder="学院名称" style="width: 250px; margin-right: 10px" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-input v-model="listQuery.deptName" placeholder="专业名称" style="width: 250px; margin-right: 10px" class="filter-item" @keyup.enter.native="handleFilter" />
 
       <el-select v-model="listQuery.collegeCode" placeholder="学院" no-data-text="全部" clearable class="filter-item" style="width: 250px">
         <el-option v-for="item in collegeList" :key="item.id" :label="item.collegeName" :value="item.collegeCode" />

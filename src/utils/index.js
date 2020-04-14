@@ -12,7 +12,7 @@ export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
     return null
   }
-  const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
+  const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}';
   let date
   if (typeof time === 'object') {
     date = time
@@ -33,7 +33,7 @@ export function parseTime(time, cFormat) {
     i: date.getMinutes(),
     s: date.getSeconds(),
     a: date.getDay()
-  }
+  };
   const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
     const value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
