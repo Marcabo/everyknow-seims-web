@@ -124,6 +124,20 @@ export const constantRoutes = [
         name: 'EditStudent',
         hidden: true,
         meta: { title: '编辑学生信息', icon: 'editor', noCache: true }
+      },
+      {
+        path: 'editEmploy/:stuId',
+        component: () => import('@/views/graduateinformation/StudentEmployEdit'),
+        name: 'StudentEmployEdit',
+        hidden: true,
+        meta: { title: '编辑就业信息', icon: 'editor', noCache: true }
+      },
+      {
+        path: 'editFile/:stuId',
+        component: () => import('@/views/graduateinformation/StudentFileEdit'),
+        name: 'StudentFileEdit',
+        hidden: true,
+        meta: { title: '编辑档案信息', icon: 'editor', noCache: true }
       }
     ]
 

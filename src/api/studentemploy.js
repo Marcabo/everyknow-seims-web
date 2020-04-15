@@ -2,13 +2,13 @@ import {myrequest} from "@/utils/myrequest";
 import {getCurrentTime} from "@/utils";
 
 /**
- * 获取全部省份
+ * 根据 stuId 获取学生就业信息
  * @param request
  * @returns {AxiosPromise}
  */
-export function getProvinces(request) {
+export function getStudentEmploy(request) {
   return myrequest({
-    url: '/location/getProvinces',
+    url: '/studentemploy/queryByStuId',
     method: 'post',
     data: {
       "eKnowRequest": {
@@ -16,17 +16,20 @@ export function getProvinces(request) {
         "requestDate": getCurrentTime()
       },
       "request": {
+        stuId: request.stuId
       }
     }
   })
 }
 
-/*
-根据 省份代码获取城市
+/**
+ * 添加 或 更新 就业信息
+ * @param request
+ * @returns {AxiosPromise}
  */
-export function getCitysByProvinceCode(request) {
+export function updateStudentEmploy(request) {
   return myrequest({
-    url: '/location/getCitys',
+    url: '/studentemploy/edit',
     method: 'post',
     data: {
       "eKnowRequest": {
@@ -34,7 +37,7 @@ export function getCitysByProvinceCode(request) {
         "requestDate": getCurrentTime()
       },
       "request": {
-        provinceCode: request.provinceCode
+        ...request
       }
     }
   })

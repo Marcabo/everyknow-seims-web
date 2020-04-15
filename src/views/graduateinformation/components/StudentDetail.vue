@@ -294,19 +294,19 @@
             { required: true, pattern: /^[A-Za-z0-9]{0,30}$/, message: '学号必须为数字,字母', trigger: 'blur'}
           ],
           sex: [
-            { required: true, message: '性别为必填项', trigger: 'blur' }
+            { required: true, message: '性别为必填项', trigger: 'change' }
           ],
           collegeCode: [
-            { required: true, message: '学院为必填项', trigger: 'blur' }
+            { required: true, message: '学院为必填项', trigger: 'change' }
           ],
           deptCode: [
-            { required: true, message: '专业为必填项', trigger: 'blur' }
+            { required: true, message: '专业为必填项', trigger: 'change' }
           ],
           clazzId: [
-            { required: true, message: '班级为必填项', trigger: 'blur' }
+            { required: true, message: '班级为必填项', trigger: 'change' }
           ],
           entryTime: [
-            { required: true, message: '入学时间为必填项', trigger: 'blur' }
+            { required: true, message: '入学时间为必填项', trigger: 'change' }
           ],
           identificationNumber: [
             { required: false, pattern: /^\d{15}|\d{18}$/, message: '身份证号必须为 15 或 18 位', trigger: 'blur' }
@@ -404,7 +404,16 @@
 
               this.$router.push('/studentinfo/baseInfo')
             })
+          } else {
+            this.$message({
+              type: 'error',
+              message: '表单校验未通过!'
+            })
+            return false;
           }
+          this.$nextTick(() => {
+            this.$refs['stuForm'].clearValidate()
+          })
         })
       },
       editStudent() {

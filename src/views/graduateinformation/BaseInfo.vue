@@ -160,12 +160,18 @@
             </el-button>
           </router-link>
 
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            档案
-          </el-button>
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            就业信息
-          </el-button>
+          <router-link :to="'/studentinfo/editFile/' + row.stuId">
+            <el-button type="primary" size="mini">
+              档案
+            </el-button>
+          </router-link>
+
+          <router-link :to="'/studentinfo/editEmploy/' + row.stuId">
+            <el-button type="primary" size="mini">
+              就业信息
+            </el-button>
+          </router-link>
+
           <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row,$index)">
             删除
           </el-button>
@@ -189,7 +195,7 @@
   import {getClazzListByDeptCode} from "@/api/clazz";
   import {getStudentPage} from "@/api/studentinfo";
 
-
+// 基础信息管理
   export default {
     name: 'BaseInfo',
     data() {
