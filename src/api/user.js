@@ -1,19 +1,25 @@
 import request from '@/utils/request'
 import {myrequest} from '@/utils/myrequest'
+import {getCurrentTime} from "@/utils";
 
-export function login(data) {
-  return request({
-    url: '/vue-admin-template/user/login',
+export function login(request) {
+  return myrequest({
+    url: '/user/login',
     method: 'post',
-    data
+    data: {
+      "eKnowRequest": {
+        "organId": "NCU",
+        "requestDate": getCurrentTime()
+      },
+      request
+    }
   })
 }
 
 export function getInfo(token) {
-  return request({
-    url: '/vue-admin-template/user/info',
-    method: 'get',
-    params: { token }
+  return myrequest({
+    url: '/user/currentUserInfo',
+    method: 'post',
   })
 }
 

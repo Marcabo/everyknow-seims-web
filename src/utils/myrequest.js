@@ -1,5 +1,7 @@
 import axios from 'axios'
 import {Notification} from 'element-ui'
+import store from "@/store";
+import {getToken, setToken, removeToken} from '@/utils/auth'
 
 export function myrequest(config) {
   const instance = axios.create({
@@ -8,12 +10,24 @@ export function myrequest(config) {
   })
 
   instance.interceptors.request.use(config => {
+    if (store.getters.token) {
+      // 让每个请求都携带 token
+      config.headers['Authorization'] = getToken()
+    }
     return config
   }, error => {
     return error
   })
 
   instance.interceptors.response.use(result => {
+    // 刷新token
+    let accessToken = result.headers['Authorization'];
+    if (accessToken) {
+      console.log('刷新Token' + accessToken)
+      removeToken();
+      setToken(accessToken)
+    }
+
     const res = result.data;
 
     if (result.status !== 200) {
@@ -55,6 +69,15 @@ export function myrequest(config) {
             });
             return Promise.reject(new Error(res.respMsg || 'Error'))
           }
+          if (res.respCode === '401') {
+            Notification({
+              title: '登录失败',
+              message: res.respMsg,
+              type: 'error',
+              duration: 2000
+            });
+            return Promise.reject(new Error(res.respMsg) || 'Error')
+          }
         } else {
           // 正常返回
           return res;
@@ -65,7 +88,7 @@ export function myrequest(config) {
     console.log('err' + error) // for debug
     Notification({
       title: '操作失败',
-      message: res.respMsg,
+      message: error,
       type: "error",
       duration: 2000
     });
