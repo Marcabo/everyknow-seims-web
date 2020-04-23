@@ -55,33 +55,33 @@ export const constantRoutes = [
     }]
   },
 
-  {
-    path: '/schoolbase',
-    component: Layout,
-    redirect: '/schoolbase/college',
-    name: 'SchoolBaseInformation',
-    meta: { title: '学校基础信息管理', icon: 'example' },
-    children: [
-      {
-        path: 'college',
-        name: 'College',
-        component: () => import('@/views/schoolbaseinformation/College'),
-        meta: { title: '学院管理', icon: 'college' }
-      },
-      {
-        path: 'dept',
-        name: 'Dept',
-        component: () => import('@/views/schoolbaseinformation/Dept'),
-        meta: {title: '专业管理', icon: 'dept'}
-      },
-      {
-        path: 'clazz',
-        name: 'Clazz',
-        component: () => import('@/views/schoolbaseinformation/Clazz'),
-        meta: {title: '班级管理', icon: 'clazz'}
-      }
-    ]
-  },
+  // {
+  //   path: '/schoolbase',
+  //   component: Layout,
+  //   redirect: '/schoolbase/college',
+  //   name: 'SchoolBaseInformation',
+  //   meta: { title: '学校基础信息管理', icon: 'example' },
+  //   children: [
+  //     {
+  //       path: 'college',
+  //       name: 'College',
+  //       component: () => import('@/views/schoolbaseinformation/College'),
+  //       meta: { title: '学院管理', icon: 'college' }
+  //     },
+  //     {
+  //       path: 'dept',
+  //       name: 'Dept',
+  //       component: () => import('@/views/schoolbaseinformation/Dept'),
+  //       meta: {title: '专业管理', icon: 'dept'}
+  //     },
+  //     {
+  //       path: 'clazz',
+  //       name: 'Clazz',
+  //       component: () => import('@/views/schoolbaseinformation/Clazz'),
+  //       meta: {title: '班级管理', icon: 'clazz'}
+  //     }
+  //   ]
+  // },
   {
     path: '/studentinfo',
     component: Layout,
@@ -126,19 +126,19 @@ export const constantRoutes = [
         meta: { title: '编辑学生信息', icon: 'editor', noCache: true }
       },
       {
+        path: 'editFile/:stuId',
+        component: () => import('@/views/graduateinformation/StudentFileEdit'),
+        name: 'StudentFileEdit',
+        hidden: true,
+        meta: { title: '编辑档案信息', icon: 'editor', noCache: true }
+      },
+      {
         path: 'editEmploy/:stuId',
         component: () => import('@/views/graduateinformation/StudentEmployEdit'),
         name: 'StudentEmployEdit',
         hidden: true,
         meta: { title: '编辑就业信息', icon: 'editor', noCache: true }
       },
-      {
-        path: 'editFile/:stuId',
-        component: () => import('@/views/graduateinformation/StudentFileEdit'),
-        name: 'StudentFileEdit',
-        hidden: true,
-        meta: { title: '编辑档案信息', icon: 'editor', noCache: true }
-      }
     ]
 
   },
@@ -246,6 +246,77 @@ export const constantRoutes = [
     ]
   },
 
+
+]
+
+export const asyncRoutes = [
+  {
+    path: '/schoolbase',
+    component: Layout,
+    redirect: '/schoolbase/college',
+    name: 'SchoolBaseInformation',
+    meta: { title: '学校基础信息管理', icon: 'example', roles: ['admin'] },
+    children: [
+      {
+        path: 'college',
+        name: 'College',
+        component: () => import('@/views/schoolbaseinformation/College'),
+        meta: { title: '学院管理', icon: 'college' }
+      },
+      {
+        path: 'dept',
+        name: 'Dept',
+        component: () => import('@/views/schoolbaseinformation/Dept'),
+        meta: {title: '专业管理', icon: 'dept'}
+      },
+      {
+        path: 'clazz',
+        name: 'Clazz',
+        component: () => import('@/views/schoolbaseinformation/Clazz'),
+        meta: {title: '班级管理', icon: 'clazz'}
+      }
+    ]
+  },
+  {
+    path: '/studentperson',
+    component: Layout,
+    redirect: '/studentperson/editStudent',
+    name: 'StudentPersonInfo',
+    meta: {title: '毕业生个人中心', icon: 'example', roles: ['student']},
+    children: [
+      {
+        path: 'editStudent',
+        component: () => import('@/views/studentperson/StudentDetail'),
+        name: 'EditStudent',
+        hidden: true,
+        meta: { title: '毕业生个人信息', icon: 'editor', noCache: true }
+      },
+      {
+        path: 'editEmploy',
+        component: () => import('@/views/graduateinformation/StudentEmployEdit'),
+        name: 'StudentEmployEdit',
+        hidden: true,
+        meta: { title: '档案信息', icon: 'editor', noCache: true }
+      },
+      {
+        path: 'editFile',
+        component: () => import('@/views/graduateinformation/StudentFileEdit'),
+        name: 'StudentFileEdit',
+        hidden: true,
+        meta: { title: '就业信息', icon: 'editor', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/external-link',
+    component: Layout,
+    children: [
+      {
+        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
+        meta: { title: 'External Link', icon: 'link' }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

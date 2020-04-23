@@ -5,3 +5,5 @@ export const SET_USERNAME = 'SET_USERNAME';
 export const SET_NICKNAME = 'SET_NICKNAME';
 export const SET_ROLENAME = 'SET_ROLENAME';
 export const SET_PERMISSIONS = 'SET_PERMISSIONS';
+
+export const SET_ROUTES = 'SET_ROUTES';

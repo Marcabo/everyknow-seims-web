@@ -2,6 +2,8 @@ import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 import * as type from '@/store/constant'
+import store from '@/store'
+import router from '@/router'
 
 const getDefaultState = () => {
   return {
@@ -78,14 +80,23 @@ const actions = {
         if (!data) {
           reject('登录失败, 请重新登录')
         }
-
+        console.log(data)
         const {id, username, nickname, roleName, permissions} = data
 
+        // 存储用户信息 到 Vuex中
         commit(type.SET_ID, id);
         commit(type.SET_USERNAME, username);
         commit(type.SET_NICKNAME, nickname);
         commit(type.SET_ROLENAME, roleName);
         commit(type.SET_PERMISSIONS, permissions);
+
+        // 生成路由
+        // store.dispatch('permission/generateRoutes', roleName).then(() => {
+        //   // 添加新路由
+        //   // TODO 这里有 bug
+        //   router.options.routes = store.getters.routes
+        //   router.addRoutes([...store.getters.addRouters])
+        // })
 
         resolve(data)
       }).catch(error => {

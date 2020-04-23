@@ -11,6 +11,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const whiteList = ['/login', '/404'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
+  console.log(router)
   // start progress bar
   NProgress.start()
 
@@ -19,6 +20,7 @@ router.beforeEach(async(to, from, next) => {
 
   // determine whether the user has logged in
   const hasToken = getToken()
+  console.log('hasToken' + hasToken)
 
   if (hasToken) {
     if (to.path === '/login') {
@@ -28,6 +30,7 @@ router.beforeEach(async(to, from, next) => {
     } else {
       // 判断有没有获取到用户信息
       const hasRole = store.getters.role;
+
       if (hasRole) {
         // 获取到用户信息
         next()
@@ -35,7 +38,27 @@ router.beforeEach(async(to, from, next) => {
         // 没有获取到用户信息
         try {
           // get user info. role 是角色.一个用户只能有一种 角色
-          const { role } = await store.dispatch('user/getInfo')
+          // const { rolename } = await store.dispatch('user/getInfo')
+          store.dispatch('user/getInfo').then(res => {
+            const rolename = res.roleName
+
+
+            store.dispatch('permission/generateRoutes', rolename).then(res => {
+              router.addRoutes(res)
+              next({...to, replace: true})
+            })
+
+          })
+
+
+
+
+
+
+
+
+
+
           // await store.dispatch()
           next()
         } catch (error) {
@@ -69,5 +92,6 @@ router.beforeEach(async(to, from, next) => {
 
 router.afterEach(() => {
   // finish progress bar
+
   NProgress.done()
 })

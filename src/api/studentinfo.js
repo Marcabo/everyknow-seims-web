@@ -65,6 +65,27 @@ export function getStudentById(request) {
 }
 
 /**
+ * 根据 stuId 查询学生
+ * @param request
+ * @returns {AxiosPromise}
+ */
+export function getStudentByStuId(request) {
+  return myrequest({
+    url: '/studentinfo/queryByStuId',
+    method: 'post',
+    data: {
+      "eKnowRequest": {
+        "organId": "NCU",
+        "requestDate": getCurrentTime()
+      },
+      "request": {
+        "stuId": request.stuId
+      }
+    }
+  })
+}
+
+/**
  * 分页获取 学生列表
  * @param request
  * @returns {AxiosPromise}

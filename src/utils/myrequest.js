@@ -2,6 +2,7 @@ import axios from 'axios'
 import {Notification} from 'element-ui'
 import store from "@/store";
 import {getToken, setToken, removeToken} from '@/utils/auth'
+import router from "@/router";
 
 export function myrequest(config) {
   const instance = axios.create({
@@ -76,6 +77,8 @@ export function myrequest(config) {
               type: 'error',
               duration: 2000
             });
+            removeToken();
+            router.push('/');
             return Promise.reject(new Error(res.respMsg) || 'Error')
           }
         } else {
