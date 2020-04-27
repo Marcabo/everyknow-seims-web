@@ -113,6 +113,7 @@
   import {getCompanyNature} from "@/api/companynature";
   import {getIndustryType} from "@/api/industrytype";
   import {getStudentEmploy, updateStudentEmploy} from "@/api/studentemploy";
+  import store from "@/store";
 
   export default {
     name: "StudentEmployEdit",
@@ -148,7 +149,7 @@
         industryList: undefined,
         stuEmployFormRules: {
           employMethod: [
-            { required: true, message: '就业方式不能为空', trigger: 'change' }
+            { required: true, message: '就业方式不能为空', trigger: 'blur' }
           ],
           salary: [
             { required: false, pattern: /^\d+$/, message: '薪资为整数字', trigger: 'blur'}
@@ -163,15 +164,18 @@
       }
     },
     created() {
-      this.fetchStudentEmploy();
+      const username = store.getters.username;
+
+      // 这里直接传是因为. 当用户身份为 student 时. 其 username 就是 stuId
+      this.fetchStudentEmploy(username);
     },
     methods: {
-      fetchStudentEmploy() {
+      fetchStudentEmploy(stuId) {
         getStudentEmploy({
-          stuId: this.$route.params.stuId
+          stuId: stuId
         }).then(response => {
           this.form = response.returnObject;
-          this.form.stuId = this.$route.params.stuId;
+          this.form.stuId = store.getters.username;
         }).then(() => {
           this.fetchEmployMethod();
           this.fetchCompanyNature();
@@ -218,7 +222,7 @@
         this.fetchDept();
       },
       onCancel() {
-        this.$router.push('/studentinfo/baseInfo')
+        // this.$router.push('/studentinfo/baseInfo')
       },
       editStudentEmploy() {
         this.$refs['stuEmployForm'].validate( (valid) => {
@@ -231,7 +235,7 @@
                 message: '更新成功!'
               })
 
-              this.$router.push('/studentinfo/baseInfo')
+              // this.$router.push('/studentinfo/baseInfo')
             })
           } else {
             this.$message({
@@ -248,7 +252,7 @@
     },
     computed: {
       componentsType() {
-        return '编辑' + ' - ' + this.$route.params.stuId;
+        return '编辑' + ' - ' + store.getters.username;
       },
 
     }

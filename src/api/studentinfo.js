@@ -209,3 +209,16 @@ export function downloadExcel() {
 }
 
 
+/**
+ * 获取全部毕业届数
+ * @param request
+ * @returns {AxiosPromise}
+ */
+export function getAllGraduationSession() {
+  return myrequest({
+    url: 'studentinfo/getAllGraduationSession',
+    method: 'post'
+  })
+}
+
+

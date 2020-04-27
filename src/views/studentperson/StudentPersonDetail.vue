@@ -168,10 +168,9 @@
       </el-row>
 
       <el-row>
-        <el-col :offset="8">
+        <el-col :offset="9">
           <el-form-item>
-            <el-button size="medium" type="primary" @click="isEdit === false ? addStudent() : editStudent()">{{editButtonMsg}}</el-button>
-            <el-button size="medium" @click="onCancel">取消</el-button>
+            <el-button size="medium" type="primary" @click="editStudent()">修改</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -438,14 +437,8 @@
       }
     },
     computed: {
-      componentsType() {
-        return this.isEdit === true ? '编辑' + this.editStuIdC : '新增';
-      },
       editStuIdC() {
         return store.getters.username === '' ? '' : ' - ' + store.getters.username
-      },
-      editButtonMsg() {
-        return this.isEdit ? '修改' : '新增'
       }
     }
   }

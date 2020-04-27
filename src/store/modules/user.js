@@ -45,7 +45,7 @@ const mutations = {
   SET_NAME: (state, name) => {
     state.name = name
   },
-  SET_AVATAR: (state, avatar) => {
+  [type.SET_AVATAR]: (state, avatar) => {
     state.avatar = avatar
   },
 
@@ -81,7 +81,7 @@ const actions = {
           reject('登录失败, 请重新登录')
         }
         console.log(data)
-        const {id, username, nickname, roleName, permissions} = data
+        const {id, username, nickname, roleName, permissions, avatar} = data
 
         // 存储用户信息 到 Vuex中
         commit(type.SET_ID, id);
@@ -89,6 +89,7 @@ const actions = {
         commit(type.SET_NICKNAME, nickname);
         commit(type.SET_ROLENAME, roleName);
         commit(type.SET_PERMISSIONS, permissions);
+        commit(type.SET_AVATAR, avatar);
 
         // 生成路由
         // store.dispatch('permission/generateRoutes', roleName).then(() => {

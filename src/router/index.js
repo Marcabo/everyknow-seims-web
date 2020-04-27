@@ -32,6 +32,7 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   {
+    eId: 20,
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
@@ -44,6 +45,7 @@ export const constantRoutes = [
   },
 
   {
+    eId: 1,
     path: '/',
     component: Layout,
     redirect: '/dashboard',
@@ -82,12 +84,172 @@ export const constantRoutes = [
   //     }
   //   ]
   // },
+
   {
+    eId: 5,
+    path: '/datavisual',
+    component: Layout,
+    redirect: '/datavisual/school',
+    name: 'Example',
+    meta: { title: '数据可视化展现', icon: 'example' },
+    children: [
+      {
+        path: 'school',
+        name: 'SchoolData',
+        component: () => import('@/views/datavisual/SchoolData'),
+        meta: { title: '学校数据可视化', icon: 'table' }
+      },
+      {
+        path: 'college',
+        name: 'CollegeData',
+        component: () => import('@/views/datavisual/CollegeData'),
+        meta: { title: '学院数据可视化', icon: 'tree' }
+      },
+      {
+        path: 'dept',
+        name: 'DeptData',
+        component: () => import('@/views/datavisual/DeptData'),
+        meta: { title: '专业数据可视化', icon: 'tree' }
+      },
+      {
+        path: 'clazz',
+        name: 'ClazzData',
+        component: () => import('@/views/datavisual/ClazzData'),
+        meta: { title: '班级数据可视化', icon: 'tree' }
+      }
+    ]
+  },
+
+  {
+    eId: 6,
+    path: '/analysis',
+    component: Layout,
+    name: 'analysis',
+    redirect: '/analysis/index',
+    meta: { title: '历年分析对比', icon: 'example' },
+    children: [
+      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/form/index'),
+        meta: { title: '待完成', icon: 'form' }
+      },
+      {
+        path: 'index2',
+        name: 'Form',
+        component: () => import('@/views/form/index'),
+        meta: { title: '待完成', icon: 'form' }
+      }
+    ]
+  },
+
+  {
+    eId: 7,
+    path: '/usermanager',
+    component: Layout,
+    redirect: '/nested/menu1',
+    name: 'UserManager',
+    meta: {
+      title: '用户管理',
+      icon: 'nested'
+    },
+    children: [
+      {
+        path: 'admin',
+        name: 'AmdinManager',
+        component: () => import('@/views/usermanager/UserList'),
+        meta: { title: '管理员管理', icon: 'example' }
+      },
+      {
+        path: 'employ_teacher',
+        name: 'EmployTeacherManager',
+        component: () => import('@/views/usermanager/UserList'),
+        meta: { title: '就业处老师管理', icon: 'example' }
+      },
+      {
+        path: 'college_leader',
+        name: 'CollegeLeaderManager',
+        component: () => import('@/views/usermanager/UserList'),
+        meta: { title: '学院领导管理', icon: 'example' }
+      },
+      {
+        path: 'instructor',
+        name: 'InstructorManager',
+        component: () => import('@/views/usermanager/UserList'),
+        meta: { title: '辅导员管理', icon: 'example' }
+      },
+      {
+        path: 'student',
+        name: 'StudentManager',
+        component: () => import('@/views/usermanager/UserList'),
+        meta: { title: '学生管理', icon: 'example' }
+      },
+
+    ]
+  },
+
+  {
+    eId: 8,
+    path: '/profile',
+    component: Layout,
+    name: 'Profile',
+    redirect: '/profile/person',
+    meta: { title: '个人中心', icon: 'example' },
+    children: [
+      {
+        path: 'person',
+        name: 'Person',
+        component: () => import('@/views/profile/UserProfile'),
+        meta: { title: '个人信息', icon: 'table' }
+      },
+      {
+        path: 'password',
+        name: 'Password',
+        component: () => import('@/views/profile/UserPassword'),
+        meta: { title: '密码修改', icon: 'form' }
+      }
+    ]
+  },
+
+
+]
+
+export const asyncRoutes = [
+  {
+    eId: 2,
+    path: '/schoolbase',
+    component: Layout,
+    redirect: '/schoolbase/college',
+    name: 'SchoolBaseInformation',
+    meta: { title: '学校基础信息管理', icon: 'example', roles: ['admin'] },
+    children: [
+      {
+        path: 'college',
+        name: 'College',
+        component: () => import('@/views/schoolbaseinformation/College'),
+        meta: { title: '学院管理', icon: 'college' }
+      },
+      {
+        path: 'dept',
+        name: 'Dept',
+        component: () => import('@/views/schoolbaseinformation/Dept'),
+        meta: {title: '专业管理', icon: 'dept'}
+      },
+      {
+        path: 'clazz',
+        name: 'Clazz',
+        component: () => import('@/views/schoolbaseinformation/Clazz'),
+        meta: {title: '班级管理', icon: 'clazz'}
+      }
+    ]
+  },
+  {
+    eId: 4,
     path: '/studentinfo',
     component: Layout,
     redirect: '',
     name: 'StudentInformation',
-    meta: {title: '毕业生信息管理', icon: 'info-mannger'},
+    meta: {title: '毕业生信息管理', icon: 'info-mannger', roles: ['admin', 'employ_teacher']},
     children: [
       {
         path: 'baseInfo',
@@ -143,141 +305,7 @@ export const constantRoutes = [
 
   },
   {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
-
-
-]
-
-export const asyncRoutes = [
-  {
-    path: '/schoolbase',
-    component: Layout,
-    redirect: '/schoolbase/college',
-    name: 'SchoolBaseInformation',
-    meta: { title: '学校基础信息管理', icon: 'example', roles: ['admin'] },
-    children: [
-      {
-        path: 'college',
-        name: 'College',
-        component: () => import('@/views/schoolbaseinformation/College'),
-        meta: { title: '学院管理', icon: 'college' }
-      },
-      {
-        path: 'dept',
-        name: 'Dept',
-        component: () => import('@/views/schoolbaseinformation/Dept'),
-        meta: {title: '专业管理', icon: 'dept'}
-      },
-      {
-        path: 'clazz',
-        name: 'Clazz',
-        component: () => import('@/views/schoolbaseinformation/Clazz'),
-        meta: {title: '班级管理', icon: 'clazz'}
-      }
-    ]
-  },
-  {
+    eId: 3,
     path: '/studentperson',
     component: Layout,
     redirect: '/studentperson/editStudent',
@@ -286,34 +314,24 @@ export const asyncRoutes = [
     children: [
       {
         path: 'editStudent',
-        component: () => import('@/views/studentperson/StudentDetail'),
-        name: 'EditStudent',
-        hidden: true,
+        component: () => import('@/views/studentperson/StudentPersonDetail'),
+        name: 'StudentPersonEdit',
+        hidden: false,
         meta: { title: '毕业生个人信息', icon: 'editor', noCache: true }
       },
       {
         path: 'editEmploy',
-        component: () => import('@/views/graduateinformation/StudentEmployEdit'),
-        name: 'StudentEmployEdit',
-        hidden: true,
-        meta: { title: '档案信息', icon: 'editor', noCache: true }
+        component: () => import('@/views/studentperson/StudentPersonEmployEdit'),
+        name: 'StudentPersonEmployEdit',
+        hidden: false,
+        meta: { title: '就业信息', icon: 'editor', noCache: true }
       },
       {
         path: 'editFile',
-        component: () => import('@/views/graduateinformation/StudentFileEdit'),
-        name: 'StudentFileEdit',
-        hidden: true,
-        meta: { title: '就业信息', icon: 'editor', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        component: () => import('@/views/studentperson/StudentPersonFileEdit'),
+        name: 'StudentPersonFileEdit',
+        hidden: false,
+        meta: { title: '档案信息', icon: 'editor', noCache: true }
       }
     ]
   },

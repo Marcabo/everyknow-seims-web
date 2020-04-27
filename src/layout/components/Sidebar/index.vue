@@ -13,7 +13,7 @@
         mode="vertical"
       >
 <!--        this.$store.getters.routes-->
-        <sidebar-item v-for="route in this.$store.getters.routes" :key="route.path" :item="route" :base-path="route.path" />
+        <sidebar-item v-for="route in gettersRoutes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -31,7 +31,25 @@ export default {
     ...mapGetters([
       'sidebar'
     ]),
+    gettersRoutes() {
+      // 路由重排序.根据 eId
+      // TODO 可能需要重构. 所有没有 eId 的都要移动到最后
+      let myRoutes = this.$store.getters.routes;
+      let compare = function (obj1, obj2) {
+        let var1 = obj1.eId;
+        let var2 = obj2.eId;
+        if (var1 < var2) {
+          return -1;
+        } else if (var1 > var2) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+      return Array.from(new Set(myRoutes.sort(compare)))
+    },
     routes() {
+      // 方法已失效
       return this.$router.options.routes
     },
     activeMenu() {

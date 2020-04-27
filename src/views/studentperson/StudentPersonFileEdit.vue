@@ -54,6 +54,7 @@
 
 <script>
   import {getStudentFile, updateStudentFile} from "@/api/studentfile";
+  import store from "@/store";
 
   export default {
     name: "StudentFileEdit",
@@ -79,19 +80,22 @@
       }
     },
     created() {
-      this.fetchStudentFile();
+      const username = store.getters.username;
+
+      // 这里直接传是因为. 当用户身份为 student 时. 其 username 就是 stuId
+      this.fetchStudentFile(username);
     },
     methods: {
-      fetchStudentFile() {
+      fetchStudentFile(stuId) {
         getStudentFile({
-          stuId: this.$route.params.stuId
+          stuId: stuId
         }).then(response => {
           this.form = response.returnObject;
-          this.form.stuId = this.$route.params.stuId;
+          this.form.stuId = store.getters.username;
         })
       },
       onCancel() {
-        this.$router.push('/studentinfo/baseInfo')
+        // this.$router.push('/studentinfo/baseInfo')
       },
       editStudentFile() {
         this.$refs['stuFileForm'].validate( (valid) => {
@@ -104,7 +108,7 @@
                 message: '更新成功!'
               })
 
-              this.$router.push('/studentinfo/baseInfo')
+              // this.$router.push('/studentinfo/baseInfo')
             })
           } else {
             this.$message({
@@ -121,7 +125,7 @@
     },
     computed: {
       componentsType() {
-        return '编辑' + ' - ' + this.$route.params.stuId;
+        return '编辑' + ' - ' + store.getters.username;
       },
 
     }

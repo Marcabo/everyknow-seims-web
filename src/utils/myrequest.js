@@ -3,6 +3,7 @@ import {Notification} from 'element-ui'
 import store from "@/store";
 import {getToken, setToken, removeToken} from '@/utils/auth'
 import router from "@/router";
+import {SET_TOKEN} from "@/store/constant";
 
 export function myrequest(config) {
   const instance = axios.create({
@@ -27,6 +28,7 @@ export function myrequest(config) {
       console.log('刷新Token' + accessToken)
       removeToken();
       setToken(accessToken)
+      this.$store.commit(SET_TOKEN, accessToken)
     }
 
     const res = result.data;
@@ -79,6 +81,15 @@ export function myrequest(config) {
             });
             removeToken();
             router.push('/');
+            return Promise.reject(new Error(res.respMsg) || 'Error')
+          }
+          if (res.respCode === '403') {
+            Notification({
+              title: '没有权限',
+              message: result.config.url,
+              type: 'error',
+               duration: 2000
+            });
             return Promise.reject(new Error(res.respMsg) || 'Error')
           }
         } else {

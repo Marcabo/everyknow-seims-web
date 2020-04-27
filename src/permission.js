@@ -29,7 +29,7 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done()
     } else {
       // 判断有没有获取到用户信息
-      const hasRole = store.getters.role;
+      const hasRole = store.getters.rolename;
 
       if (hasRole) {
         // 获取到用户信息
@@ -45,6 +45,7 @@ router.beforeEach(async(to, from, next) => {
 
             store.dispatch('permission/generateRoutes', rolename).then(res => {
               router.addRoutes(res)
+              console.log('执行了 添加路由')
               next({...to, replace: true})
             })
 
