@@ -56,35 +56,6 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
-
-  // {
-  //   path: '/schoolbase',
-  //   component: Layout,
-  //   redirect: '/schoolbase/college',
-  //   name: 'SchoolBaseInformation',
-  //   meta: { title: '学校基础信息管理', icon: 'example' },
-  //   children: [
-  //     {
-  //       path: 'college',
-  //       name: 'College',
-  //       component: () => import('@/views/schoolbaseinformation/College'),
-  //       meta: { title: '学院管理', icon: 'college' }
-  //     },
-  //     {
-  //       path: 'dept',
-  //       name: 'Dept',
-  //       component: () => import('@/views/schoolbaseinformation/Dept'),
-  //       meta: {title: '专业管理', icon: 'dept'}
-  //     },
-  //     {
-  //       path: 'clazz',
-  //       name: 'Clazz',
-  //       component: () => import('@/views/schoolbaseinformation/Clazz'),
-  //       meta: {title: '班级管理', icon: 'clazz'}
-  //     }
-  //   ]
-  // },
-
   {
     eId: 5,
     path: '/datavisual',
@@ -143,75 +114,6 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    eId: 7,
-    path: '/usermanager',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'UserManager',
-    meta: {
-      title: '用户管理',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'admin',
-        name: 'AmdinManager',
-        component: () => import('@/views/usermanager/UserList'),
-        meta: { title: '管理员管理', icon: 'example' }
-      },
-      {
-        path: 'employ_teacher',
-        name: 'EmployTeacherManager',
-        component: () => import('@/views/usermanager/UserList'),
-        meta: { title: '就业处老师管理', icon: 'example' }
-      },
-      {
-        path: 'college_leader',
-        name: 'CollegeLeaderManager',
-        component: () => import('@/views/usermanager/UserList'),
-        meta: { title: '学院领导管理', icon: 'example' }
-      },
-      {
-        path: 'instructor',
-        name: 'InstructorManager',
-        component: () => import('@/views/usermanager/UserList'),
-        meta: { title: '辅导员管理', icon: 'example' }
-      },
-      {
-        path: 'student',
-        name: 'StudentManager',
-        component: () => import('@/views/usermanager/UserList'),
-        meta: { title: '学生管理', icon: 'example' }
-      },
-
-    ]
-  },
-
-  {
-    eId: 8,
-    path: '/profile',
-    component: Layout,
-    name: 'Profile',
-    redirect: '/profile/person',
-    meta: { title: '个人中心', icon: 'example' },
-    children: [
-      {
-        path: 'person',
-        name: 'Person',
-        component: () => import('@/views/profile/UserProfile'),
-        meta: { title: '个人信息', icon: 'table' }
-      },
-      {
-        path: 'password',
-        name: 'Password',
-        component: () => import('@/views/profile/UserPassword'),
-        meta: { title: '密码修改', icon: 'form' }
-      }
-    ]
-  },
-
-
 ]
 
 export const asyncRoutes = [
@@ -221,7 +123,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/schoolbase/college',
     name: 'SchoolBaseInformation',
-    meta: { title: '学校基础信息管理', icon: 'example', roles: ['admin'] },
+    meta: { title: '学校基础信息管理', icon: 'example', roles: ['admin','employ_teacher'] },
     children: [
       {
         path: 'college',
@@ -249,7 +151,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '',
     name: 'StudentInformation',
-    meta: {title: '毕业生信息管理', icon: 'info-mannger', roles: ['admin', 'employ_teacher']},
+    meta: {title: '毕业生信息管理', icon: 'info-mannger', roles: ['admin', 'employ_teacher','college_leader']},
     children: [
       {
         path: 'baseInfo',
@@ -305,6 +207,51 @@ export const asyncRoutes = [
 
   },
   {
+    eId: 7,
+    path: '/usermanager',
+    component: Layout,
+    redirect: '/nested/menu1',
+    name: 'UserManager',
+    meta: {
+      title: '用户管理',
+      icon: 'nested',
+      roles: ['admin', 'employ_teacher','college_leader', 'instructor']
+    },
+    children: [
+      {
+        path: 'admin',
+        name: 'AmdinManager',
+        component: () => import('@/views/usermanager/UserList'),
+        meta: { title: '管理员管理', icon: 'example', roles: ['admin'] }
+      },
+      {
+        path: 'employ_teacher',
+        name: 'EmployTeacherManager',
+        component: () => import('@/views/usermanager/UserList'),
+        meta: { title: '就业处老师管理', icon: 'example', roles: ['admin'] }
+      },
+      {
+        path: 'college_leader',
+        name: 'CollegeLeaderManager',
+        component: () => import('@/views/usermanager/UserList'),
+        meta: { title: '学院领导管理', icon: 'example', roles: ['admin', 'employ_teacher'] }
+      },
+      {
+        path: 'instructor',
+        name: 'InstructorManager',
+        component: () => import('@/views/usermanager/UserList'),
+        meta: { title: '辅导员管理', icon: 'example', roles: ['admin', 'employ_teacher', 'college_leader'] }
+      },
+      {
+        path: 'student',
+        name: 'StudentManager',
+        component: () => import('@/views/usermanager/UserList'),
+        meta: { title: '学生管理', icon: 'example', roles: ['admin', 'employ_teacher', 'college_leader', 'instructor'] }
+      },
+
+    ]
+  },
+  {
     eId: 3,
     path: '/studentperson',
     component: Layout,
@@ -332,6 +279,28 @@ export const asyncRoutes = [
         name: 'StudentPersonFileEdit',
         hidden: false,
         meta: { title: '档案信息', icon: 'editor', noCache: true }
+      }
+    ]
+  },
+  {
+    eId: 8,
+    path: '/profile',
+    component: Layout,
+    name: 'Profile',
+    redirect: '/profile/person',
+    meta: { title: '个人中心', icon: 'example' },
+    children: [
+      {
+        path: 'person',
+        name: 'Person',
+        component: () => import('@/views/profile/UserProfile'),
+        meta: { title: '个人信息', icon: 'table' }
+      },
+      {
+        path: 'password',
+        name: 'Password',
+        component: () => import('@/views/profile/UserPassword'),
+        meta: { title: '密码修改', icon: 'form' }
       }
     ]
   },

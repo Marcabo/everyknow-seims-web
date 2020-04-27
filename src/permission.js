@@ -40,12 +40,11 @@ router.beforeEach(async(to, from, next) => {
           // get user info. role 是角色.一个用户只能有一种 角色
           // const { rolename } = await store.dispatch('user/getInfo')
           store.dispatch('user/getInfo').then(res => {
-            const rolename = res.roleName
+            const rolename = res.roleName;
 
 
             store.dispatch('permission/generateRoutes', rolename).then(res => {
               router.addRoutes(res)
-              console.log('执行了 添加路由')
               next({...to, replace: true})
             })
 

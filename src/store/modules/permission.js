@@ -44,15 +44,10 @@ const actions = {
       // role 是后台传过来的角色名称
       const role = rolename;
 
-
       //声明该角色可用的路由
       let accessRoutes;
       accessRoutes = filterAsyncRoute(asyncRoutes, role);
-      console.log('东泰路有')
       console.log(accessRoutes);
-      console.log('动态路由')
-
-
 
       // 执行设置路由的方法
       commit(type.SET_ROUTES, accessRoutes);

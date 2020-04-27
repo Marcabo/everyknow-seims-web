@@ -9,7 +9,7 @@ export function myrequest(config) {
   const instance = axios.create({
     baseURL: '/api',
     timeout: 5000
-  })
+  });
 
   instance.interceptors.request.use(config => {
     if (store.getters.token) {
@@ -19,17 +19,27 @@ export function myrequest(config) {
     return config
   }, error => {
     return error
-  })
+  });
 
   instance.interceptors.response.use(result => {
     // 刷新token
-    let accessToken = result.headers['Authorization'];
+    let accessToken = result.headers['authorization'];
+    console.log(accessToken);
+    console.log(result);
+
+    // debugger
+
     if (accessToken) {
-      console.log('刷新Token' + accessToken)
+
       removeToken();
-      setToken(accessToken)
-      this.$store.commit(SET_TOKEN, accessToken)
+
+      setToken(accessToken);
+
+      store.commit('/user/' + SET_TOKEN, getToken());
+
     }
+
+    // debugger
 
     const res = result.data;
 
@@ -99,7 +109,7 @@ export function myrequest(config) {
       }
     }
   }, error => {
-    console.log('err' + error) // for debug
+    console.log('err' + error); // for debug
     Notification({
       title: '操作失败',
       message: error,
@@ -107,7 +117,7 @@ export function myrequest(config) {
       duration: 2000
     });
     return  Promise.reject(error)
-  })
+  });
 
   return instance(config)
 }
