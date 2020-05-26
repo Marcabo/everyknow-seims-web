@@ -9,12 +9,12 @@
       <el-input v-model="listQuery.nickname" placeholder="用户昵称(模糊)" style="width: 300px" class="filter-item"/>
 
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-search"
-                 @click="handleFilter">
+                 @click="handleFilter()">
         搜索
       </el-button>
 
       <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-circle-plus"
-                 @click="handleCreate">
+                 @click="handleCreate()">
         添加
       </el-button>
     </div>
@@ -70,6 +70,10 @@
       </el-table-column>
 
     </el-table>
+
+    <!--  封装分页插件使用  -->
+    <my-pagination :hidden-on-single="hiddenOnSingle" :total-count="page.totalCount" :current.sync="page.current"
+                   :limit.sync="page.pageSize" @pagination="handleFilter()" />
 
     <!--  弹出框  -->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="700px">
@@ -143,7 +147,8 @@
           nickname: '',
           phone: '',
           email: '',
-        }
+        },
+        hiddenOnSingle: true,
       }
     },
     created() {
@@ -154,8 +159,8 @@
       fetchUserProfileList() {
         this.listLoading = true
         getUserProfilePageByRole({
-          current: this.current,
-          pageSize: this.pageSize,
+          current: this.page.current,
+          pageSize: this.page.pageSize,
           rolename: this.currentRole
         }).then(response => {
           this.list = response.returnObject;
@@ -166,19 +171,22 @@
       },
       handleFilter() {
         this.listLoading = true
-        getUserProfilePageByRole({
-          current: this.current,
-          pageSize: this.pageSize,
-          rolename: this.currentRole,
-          username: this.listQuery.username,
-          nickname: this.listQuery.nickname
-        }).then(response => {
-          this.list = response.returnObject;
-          this.page = e2page(response);
+        if (!this.isExisted(this.listQuery)) {
+          this.fetchUserProfileList()
+        } else {
+          getUserProfilePageByRole({
+            current: this.page.current,
+            pageSize: this.page.pageSize,
+            rolename: this.currentRole,
+            username: this.listQuery.username,
+            nickname: this.listQuery.nickname
+          }).then(response => {
+            this.list = response.returnObject;
+            this.page = e2page(response);
 
-          this.listLoading = false;
-        })
-
+            this.listLoading = false;
+          });
+        }
       },
       handleCreate() {
         this.resetTemp();
@@ -301,6 +309,14 @@
           email: '',
         }
       },
+      isExisted(listQuery) {
+        for (const key in listQuery) {
+          if (listQuery[key]) {
+            return true;
+          }
+        }
+        return false;
+      }
     },
     computed: {}
   }

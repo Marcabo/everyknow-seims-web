@@ -24,7 +24,7 @@
         default: '600px'
       },
       chartData: {
-        type: Array,
+        type: Object,
         required: true
       },
       title: {

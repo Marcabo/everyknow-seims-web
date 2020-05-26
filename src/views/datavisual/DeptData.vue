@@ -1,7 +1,7 @@
 <template>
   <div class="data-visual-school">
     <el-row style="text-align: center; margin-top: 30px">
-      <span class="el-row-span">学院:</span>
+      <span class="el-row-span">请选择:</span>
       <el-select v-model="query.graduationSession" placeholder="毕业届数" clearable class="filter-item" style="width: 250px; margin-right: 10px">
         <el-option v-for="item in graduationSessionList" :key="item" :label="item" :value="item" />
       </el-select>

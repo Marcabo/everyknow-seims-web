@@ -8,7 +8,7 @@
   import echarts from "echarts";
 
 export default {
-    name: "SalaryLineBar",
+  name: "StuNumLineBar",
   props: {
     className: {
       type: String,
@@ -120,6 +120,7 @@ export default {
           }
         }],
         series: [{
+          name: '学生总人数',
           type: 'bar',
           data: Object.values(this.chartData),
           barWidth: '50px',

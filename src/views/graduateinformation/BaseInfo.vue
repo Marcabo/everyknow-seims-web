@@ -6,32 +6,32 @@
 
       <el-row>
         <span class="el-row-span">学院:</span>
-        <el-select v-model="listQuery.collegeCode" placeholder="学院" clearable class="filter-item" style="width: 250px; margin-right: 10px" @change="fetchDept">
+        <el-select v-model.trim="listQuery.collegeCode" placeholder="学院" clearable class="filter-item" style="width: 250px; margin-right: 10px" @change="fetchDept">
           <el-option v-for="item in collegeList" :key="item.id" :label="item.collegeName" :value="item.collegeCode" />
         </el-select>
         <span class="el-row-span">专业:</span>
-        <el-select v-model="listQuery.deptCode" placeholder="专业" no-data-text="全部" clearable class="filter-item" style="width: 250px; margin-right: 10px" @change="fetchClazz">
+        <el-select v-model.trim="listQuery.deptCode" placeholder="专业" no-data-text="全部" clearable class="filter-item" style="width: 250px; margin-right: 10px" @change="fetchClazz">
           <el-option v-for="item in deptList" :key="item.id" :label="item.deptName" :value="item.deptCode" />
         </el-select>
         <span class="el-row-span">班级:</span>
-        <el-select v-model="listQuery.clazzId" placeholder="班级" no-data-text="全部" clearable class="filter-item" style="width: 250px">
+        <el-select v-model.trim="listQuery.clazzId" placeholder="班级" no-data-text="全部" clearable class="filter-item" style="width: 250px">
           <el-option v-for="item in clazzList" :key="item.id" :label="item.clazzName" :value="item.id" />
         </el-select>
 
         <span class="el-row-span">姓名:</span>
-        <el-input v-model="listQuery.stuName" placeholder="学生姓名(模糊)" style="width: 250px" class="filter-item"/>
+        <el-input v-model.trim="listQuery.stuName" placeholder="学生姓名(模糊)" style="width: 250px" class="filter-item"/>
 
         <span class="el-row-span">学号:</span>
-        <el-input v-model="listQuery.stuId" placeholder="学生学号(模糊)" style="width: 300px" class="filter-item"/>
+        <el-input v-model.trim="listQuery.stuId" placeholder="学生学号(模糊)" style="width: 300px" class="filter-item"/>
       </el-row>
 
       <el-row>
         <span class="el-row-span">身份证号:</span>
-        <el-input v-model="listQuery.identificaNumber" placeholder="身份证号(模糊)" style="width: 300px" class="filter-item"/>
+        <el-input v-model.trim="listQuery.identificaNumber" placeholder="身份证号(模糊)" style="width: 300px" class="filter-item"/>
 
         <span class="el-row-span">入学年份:</span>
         <el-date-picker
-                v-model="listQuery.entryTime"
+                v-model.trim="listQuery.entryTime"
                 :default-value="new Date().setFullYear(new Date().getFullYear() - 4)"
                 format="yyyy"
                 value-format="yyyy-MM-dd"
@@ -42,7 +42,7 @@
 
         <span class="el-row-span">毕业年份:</span>
         <el-date-picker
-          v-model="listQuery.graduationSession"
+          v-model.trim="listQuery.graduationSession"
           :default-value="new Date()"
           format="yyyy"
           value-format="yyyy"
@@ -182,7 +182,7 @@
 
     <!--  封装分页插件使用  -->
     <my-pagination :hidden-on-single="hiddenOnSingle" :total-count="page.totalCount" :current.sync="page.current"
-                   :limit.sync="page.pageSize" @pagination="fetchData" />
+                   :limit.sync="page.pageSize" @pagination="handleFilter()" />
 
   </div>
 </template>
@@ -312,9 +312,7 @@
       },
       handleFilter() {
         this.listLoading = true
-        if (this.listQuery.clazzName === '' && this.listQuery.deptCode === '' && this.listQuery.collegeCode === '' &&
-            this.listQuery.stuName === '' && this.listQuery.stuId === '' && this.listQuery.identificaNumber === '' &&
-            this.listQuery.entryTime === null && this.listQuery.graduationSession === null) {
+        if (!this.isExisted(this.listQuery)) {
           this.fetchData()
         } else {
           getStudentPage({
@@ -335,6 +333,14 @@
         }
 
         this.listLoading = false
+      },
+      isExisted(listQuery) {
+        for (const key in listQuery) {
+          if (listQuery[key]) {
+            return true;
+          }
+        }
+        return false;
       }
     },
     filters: {

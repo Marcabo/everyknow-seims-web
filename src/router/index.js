@@ -100,16 +100,22 @@ export const constantRoutes = [
     meta: { title: '历年分析对比', icon: 'example' },
     children: [
       {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: '待完成', icon: 'form' }
+        path: 'schoolAnalysis',
+        name: 'SchoolAnalysis',
+        component: () => import('@/views/yearanalysis/SchoolAnalysis'),
+        meta: { title: '学校对比', icon: 'form' }
       },
       {
-        path: 'index2',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: '待完成', icon: 'form' }
+        path: 'collegeAnalysis',
+        name: 'CollegeAnalysis',
+        component: () => import('@/views/yearanalysis/CollegeAnalysis'),
+        meta: { title: '学院对比', icon: 'form' }
+      },
+      {
+        path: 'deptAnalysis',
+        name: 'deptAnalysis',
+        component: () => import('@/views/yearanalysis/DeptAnalysis'),
+        meta: { title: '专业对比', icon: 'form' }
       }
     ]
   },
